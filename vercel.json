@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    { "source": "/aberto", "destination": "/aberto.html" }
+  ],
+  "redirects": [
+    {
+      "source": "/yt",
+      "destination": "https://go.rodrigobaiao.com/campaign/mzv-yt",
+      "permanent": true
+    }
+  ]
+}

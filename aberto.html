@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Manual da ZV-E10</title>
+
+    <!-- 1. PRIORIDADE ZERO (LCP): Pré-carregamento da Capa do Vídeo (Hero) -->
+    <link rel="preload" fetchpriority="high" as="image" href="https://images.converteai.net/808eb86e-5343-4bb3-a93a-b5c65c959b16/players/6967f439fc0e7a38b23cad29/thumbnail.webp" type="image/webp">
+
+    <!-- VTurb: Otimização de Performance (LCP) - Preload e DNS Prefetch -->
+    <script>!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);</script>
+    <link rel="preload" href="https://scripts.converteai.net/808eb86e-5343-4bb3-a93a-b5c65c959b16/players/6967f439fc0e7a38b23cad29/v4/player.js" as="script" fetchpriority="high">
+    <link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script" fetchpriority="high">
+    <link rel="preload" href="https://cdn.converteai.net/808eb86e-5343-4bb3-a93a-b5c65c959b16/69679d3a00d5e3895795dedf/main.m3u8" as="fetch" fetchpriority="high">
+    <link rel="dns-prefetch" href="https://cdn.converteai.net">
+    <link rel="dns-prefetch" href="https://scripts.converteai.net">
+    <link rel="dns-prefetch" href="https://images.converteai.net">
+    <link rel="dns-prefetch" href="https://api.vturb.com.br">
+
+    <!-- Fonte Inter utilizada no Design System GenLabs -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+
+    <!-- 2. ATRASO INTELIGENTE: Scripts não críticos movidos para o final -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fafafa;
+            color: #18181b;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Critical Hero Layout Skeleton */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 2.5rem;
+            padding-bottom: 4rem;
+            position: relative;
+        }
+
+        .hero-container {
+            width: 100%;
+            max-width: 64rem;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Glass Panel Styling para a Hero e Elementos Centrais */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.90);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(228, 228, 231, 0.5);
+        }
+
+        /* Grid Background Pattern */
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image:
+                linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+            mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+        }
+
+        /* Animação para o Marquee de Depoimentos */
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-50% - 0.75rem)); }
+        }
+
+        .animate-scroll {
+            animation: scroll 40s linear infinite;
+            will-change: transform;
+        }
+
+        .animate-scroll:hover {
+            animation-play-state: paused;
+        }
+
+        /* Accent Gradients */
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(to right, #ea580c, #fb923c);
+        }
+
+        .subtle-overlay {
+            background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.0) 50%, rgba(0, 0, 0, 0.02) 100%);
+        }
+
+        /* Smooth fade in animation for hero load */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-up {
+            animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .delay-100 { animation-delay: 100ms; opacity: 0; }
+        .delay-200 { animation-delay: 200ms; opacity: 0; }
+        .delay-300 { animation-delay: 300ms; opacity: 0; }
+
+
+
+        /* Mobile Adjustments for Critical Paint */
+        @media (max-width: 640px) {
+            .hero-section { padding-top: 1.5rem; }
+            h1 { font-size: 2.25rem !important; line-height: 1.1 !important; text-align: center; margin-bottom: 2rem !important; }
+        }
+        @media (min-width: 1024px) {
+            h1 { font-size: 4rem !important; line-height: 0.95 !important; }
+        }
+    </style>
+
+    <!-- 3. VTURB DEFER: Carregamento sem bloqueio -->
+    <script type="text/javascript">
+        var s = document.createElement("script");
+        s.src = "https://scripts.converteai.net/808eb86e-5343-4bb3-a93a-b5c65c959b16/players/6967f439fc0e7a38b23cad29/v4/player.js";
+        s.defer = true;
+        document.head.appendChild(s);
+    </script>
+
+    <!-- Meta Pixel Code -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '1488720372069713');
+      fbq('track', 'PageView');
+      fbq('track', 'ViewContent');
+    </script>
+    <noscript>
+      <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1488720372069713&ev=PageView&noscript=1"/>
+    </noscript>
+    <!-- End Meta Pixel Code -->
+</head>
+
+<body class="min-h-screen bg-zinc-50 flex flex-col items-center justify-center relative pt-8 pb-16">
+
+    <!-- Glowing Orbs no Fundo -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div
+            class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-orange-200/40 rounded-full blur-[100px] opacity-60 mix-blend-multiply">
+        </div>
+        <div
+            class="absolute top-[30%] right-[-10%] w-[40%] h-[60%] bg-zinc-200/60 rounded-full blur-[100px] opacity-60 mix-blend-multiply">
+        </div>
+        <div
+            class="absolute bottom-[-10%] left-[20%] w-[60%] h-[50%] bg-orange-100/50 rounded-full blur-[100px] opacity-50 mix-blend-multiply">
+        </div>
+    </div>
+
+    <!-- Fundo Grid -->
+    <div class="fixed inset-0 pointer-events-none z-0 bg-grid opacity-100 h-full w-full"></div>
+
+    <!-- Fundo Visual com Linhas Verticais Sutis -->
+    <div
+        class="fixed inset-0 flex justify-between pointer-events-none z-0 px-6 sm:px-10 lg:px-12 w-full h-full opacity-40">
+        <div class="h-full w-[1px] bg-gradient-to-b from-transparent via-zinc-300 to-transparent"></div>
+        <div class="h-full w-[1px] bg-gradient-to-b from-transparent via-zinc-300 to-transparent hidden sm:block"></div>
+        <div class="h-full w-[1px] bg-gradient-to-b from-transparent via-zinc-300 to-transparent"></div>
+        <div class="h-full w-[1px] bg-gradient-to-b from-transparent via-zinc-300 to-transparent hidden sm:block"></div>
+        <div class="h-full w-[1px] bg-gradient-to-b from-transparent via-zinc-300 to-transparent"></div>
+    </div>
+
+    <!-- MAIN CONTAINER HERO -->
+    <!-- Utiliza o mobile first (centralizado e blocos adaptativos) e o glass panel principal -->
+    <main class="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 flex flex-col items-center justify-center pt-10">
+
+        <!-- Pre-Headline (Pill) -->
+        <div
+            class="animate-fade-up flex items-center gap-2 md:gap-3 bg-white/80 border border-zinc-200 rounded-full px-4 sm:px-6 py-2 shadow-sm backdrop-blur-sm mb-6 sm:mb-8 mx-auto w-max max-w-full">
+            <!-- Ping indicator light como GenLabs -->
+            <span class="relative flex h-2 w-2 shrink-0">
+                <span
+                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
+            </span>
+            <span
+                class="text-[10px] sm:text-xs font-semibold text-zinc-500 tracking-widest uppercase text-center block">
+                Para criadores de conteúdo donos da <span class="text-zinc-800">Sony ZV-E10 Mark I ou Mark II</span>
+            </span>
+        </div>
+
+        <!-- Headline (H1) -->
+        <h1
+            class="animate-fade-up delay-100 text-center font-medium tracking-tighter text-zinc-900 text-4xl sm:text-5xl md:text-6xl lg:text-[4rem] leading-[1.05] lg:leading-[0.95] mb-8 sm:mb-12 max-w-4xl mx-auto">
+            Você Gastou <span class="text-gradient font-bold drop-shadow-sm">R$ 5.000</span> na <span
+                class="whitespace-nowrap">ZV-E10</span> e Ainda Grava no <span
+                class="text-gradient font-bold drop-shadow-sm">Automático?</span>
+        </h1>
+
+        <!-- Container do Vídeo (Vturb) com sombra elegante e bordas refinadas -->
+        <div class="animate-fade-up delay-200 w-full flex justify-center relative group">
+
+            <!-- Glow Effect on hover atrás do vídeo (Subtle) -->
+            <div
+                class="absolute inset-0 bg-zinc-200 blur-2xl opacity-0 group-hover:opacity-40 transition-opacity duration-700 ease-in-out -z-10 rounded-3xl">
+            </div>
+
+            <div
+                class="w-full glass-panel subtle-overlay rounded-2xl sm:rounded-[2rem] p-3 sm:p-5 shadow-xl-soft border border-white/40 flex flex-col items-center justify-center relative overflow-hidden">
+
+                <!-- Inner Reflection do vidro -->
+                <div class="absolute inset-0 rounded-[2rem] shadow-inner-glow pointer-events-none"></div>
+
+                <!-- Vturb Video Element (Exatamente conforme exigido) -->
+                <div
+                    class="relative w-full rounded-xl sm:rounded-2xl overflow-hidden shadow-lg border border-zinc-200/50 bg-black/5">
+                    <vturb-smartplayer id="vid-6967f439fc0e7a38b23cad29"
+                        style="display: block; margin: 0 auto; width: 100%; max-width: 400px;"></vturb-smartplayer>
+                </div>
+
+                <!-- Helper text abaixo do vídeo garantindo que mantenham o foco no mobile (opcional se quiser aumentar engajamento) -->
+                <p
+                    class="mt-4 text-[11px] sm:text-xs text-zinc-400 font-medium tracking-wide uppercase text-center flex items-center gap-1.5 opacity-80">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z">
+                        </path>
+                    </svg>
+                    Ative o som e assista até o final
+                </p>
+
+            </div>
+        </div>
+
+        <!-- Seção de Depoimentos Scrollável (Logo abaixo do vídeo) -->
+        <div>
+        <div class="animate-fade-up delay-300 mt-16 sm:mt-20 relative" style="width:100vw;position:relative;left:50%;right:50%;margin-left:-50vw;margin-right:-50vw;overflow:hidden;">
+
+            <!-- Vignette effects nas bordas (gradient fade) -->
+            <div
+                class="absolute left-0 top-0 bottom-0 w-12 sm:w-24 bg-gradient-to-r from-[#fafafa] to-transparent z-10 pointer-events-none">
+            </div>
+            <div
+                class="absolute right-0 top-0 bottom-0 w-12 sm:w-24 bg-gradient-to-l from-[#fafafa] to-transparent z-10 pointer-events-none">
+            </div>
+
+            <p class="text-center text-xs sm:text-sm font-semibold text-zinc-400 uppercase tracking-widest mb-6 px-4">
+                Resultados reais de quem já domina a câmera</p>
+            <!-- Wrapper do scroll infinito -->
+            <div class="flex animate-scroll w-max gap-4 sm:gap-6 px-4 hover:cursor-grab active:cursor-grabbing">
+                <!-- Set 1 -->
+                <div class="flex items-center gap-4 sm:gap-6">
+                    <div
+                        class="w-64 sm:w-80 flex-shrink-0 glass-panel p-2 rounded-2xl border border-zinc-200/50 shadow-sm hover:shadow-md transition-shadow">
+                        <img src="assets/img/testimonials/IMG_0584.webp" alt="Depoimento" loading="lazy" decoding="async"
+                            class="w-full h-auto rounded-xl object-contain" loading="lazy" decoding="async" />
+                    </div>
+                    <div
+                        class="w-64 sm:w-80 flex-shrink-0 glass-panel p-2 rounded-2xl border border-zinc-200/50 shadow-sm hover:shadow-md transition-shadow">
+                        <img src="assets/img/testimonials/IMG_3519.webp" alt="Depoimento" loading="lazy" decoding="async"
+                            class="w-full h-auto rounded-xl object-contain" />
+                    </div>
+                    <div
+                        class="w-64 sm:w-80 flex-shrink-0 glass-panel p-2 rounded-2xl border border-zinc-200/50 shadow-sm hover:shadow-md transition-shadow">
+                        <img src="assets/img/testimonials/IMG_4610.webp" alt="Depoimento" loading="lazy" decoding="async"
+                            class="w-full h-auto rounded-xl object-contain" />
+                    </div>
+                    <div
+                        class="w-64 sm:w-80 flex-shrink-0 glass-panel p-2 rounded-2xl border border-zinc-200/50 shadow-sm hover:shadow-md transition-shadow">
+                        <img src="assets/img/testimonials/IMG_4860.webp" alt="Depoimento" loading="lazy" decoding="async"
+                            class="w-full h-auto rounded-xl object-contain" />
+                    </div>
+                    <div
+                        class="w-64 sm:w-80 flex-shrink-0 glass-panel p-2 rounded-2xl border border-zinc-200/50 shadow-sm hover:shadow-md transition-shadow">
+                        <img src="assets/img/testimonials/IMG_9227.webp" alt="Depoimento" loading="lazy" decoding="async"
+                            class="w-full h-auto rounded-xl object-contain" />
+                    </div>
+                    <div
+                        class="w-64 sm:w-80 flex-shrink-0 glass-panel p-2 rounded-2xl border border-zinc-200/50 shadow-sm hover:shadow-md transition-shadow">
+                        <img src="assets/img/testimonials/IMG_9273.webp" alt="Depoimento" loading="lazy" decoding="async"
+                            class="w-full h-auto rounded-xl object-contain" />
+                    </div>
+                    <div
+                        class="w-64 sm:w-80 flex-shrink-0 glass-panel p-2 rounded-2xl border border-zinc-200/50 shadow-sm hover:shadow-md transition-shadow">
+                        <img src="assets/img/testimonials/IMG_9300.webp" alt="Depoimento" loading="lazy" decoding="async"
+                            class="w-full h-auto rounded-xl object-contain" />
+                    </div>
+                    <div
+                        class="w-64 sm:w-80 flex-shrink-0 glass-panel p-2 rounded-2xl border border-zinc-200/50 shadow-sm hover:shadow-md transition-shadow">
+                        <img src="assets/img/testimonials/IMG_9301.webp" alt="Depoimento" loading="lazy" decoding="async"
+                            class="w-full h-auto rounded-xl object-contain" />
+                    </div>
+                    <div
+                        class="w-64 sm:w-80 flex-shrink-0 glass-panel p-2 rounded-2xl border border-zinc-200/50 shadow-sm hover:shadow-md transition-shadow">
+                        <img src="assets/img/testimonials/IMG_9302.webp" alt="Depoimento" loading="lazy" decoding="async"
+                            class="w-full h-auto rounded-xl object-contain" />
+                    </div>
+                </div>
+
+                <!-- Set 2 (Duplicado para o efeito infinito perfeito) -->
+                <div class="flex items-center gap-4 sm:gap-6">
+                    <div
+                        class="w-64 sm:w-80 flex-shrink-0 glass-panel p-2 rounded-2xl border border-zinc-200/50 shadow-sm hover:shadow-md transition-shadow">
+                        <img src="assets/img/testimonials/IMG_0584.webp" alt="Depoimento" loading="lazy" decoding="async"
+                            class="w-full h-auto rounded-xl object-contain" loading="lazy" decoding="async" />
+                    </div>
+                    <div
+                        class="w-64 sm:w-80 flex-shrink-0 glass-panel p-2 rounded-2xl border border-zinc-200/50 shadow-sm hover:shadow-md transition-shadow">
+                        <img src="assets/img/testimonials/IMG_3519.webp" alt="Depoimento" loading="lazy" decoding="async"
+                            class="w-full h-auto rounded-xl object-contain" />
+                    </div>
+                    <div
+                        class="w-64 sm:w-80 flex-shrink-0 glass-panel p-2 rounded-2xl border border-zinc-200/50 shadow-sm hover:shadow-md transition-shadow">
+                        <img src="assets/img/testimonials/IMG_4610.webp" alt="Depoimento" loading="lazy" decoding="async"
+                            class="w-full h-auto rounded-xl object-contain" />
+                    </div>
+                    <div
+                        class="w-64 sm:w-80 flex-shrink-0 glass-panel p-2 rounded-2xl border border-zinc-200/50 shadow-sm hover:shadow-md transition-shadow">
+                        <img src="assets/img/testimonials/IMG_4860.webp" alt="Depoimento" loading="lazy" decoding="async"
+                            class="w-full h-auto rounded-xl object-contain" />
+                    </div>
+                    <div
+                        class="w-64 sm:w-80 flex-shrink-0 glass-panel p-2 rounded-2xl border border-zinc-200/50 shadow-sm hover:shadow-md transition-shadow">
+                        <img src="assets/img/testimonials/IMG_9227.webp" alt="Depoimento" loading="lazy" decoding="async"
+                            class="w-full h-auto rounded-xl object-contain" />
+                    </div>
+                    <div
+                        class="w-64 sm:w-80 flex-shrink-0 glass-panel p-2 rounded-2xl border border-zinc-200/50 shadow-sm hover:shadow-md transition-shadow">
+                        <img src="assets/img/testimonials/IMG_9273.webp" alt="Depoimento" loading="lazy" decoding="async"
+                            class="w-full h-auto rounded-xl object-contain" />
+                    </div>
+                    <div
+                        class="w-64 sm:w-80 flex-shrink-0 glass-panel p-2 rounded-2xl border border-zinc-200/50 shadow-sm hover:shadow-md transition-shadow">
+                        <img src="assets/img/testimonials/IMG_9300.webp" alt="Depoimento" loading="lazy" decoding="async"
+                            class="w-full h-auto rounded-xl object-contain" />
+                    </div>
+                    <div
+                        class="w-64 sm:w-80 flex-shrink-0 glass-panel p-2 rounded-2xl border border-zinc-200/50 shadow-sm hover:shadow-md transition-shadow">
+                        <img src="assets/img/testimonials/IMG_9301.webp" alt="Depoimento" loading="lazy" decoding="async"
+                            class="w-full h-auto rounded-xl object-contain" />
+                    </div>
+                    <div
+                        class="w-64 sm:w-80 flex-shrink-0 glass-panel p-2 rounded-2xl border border-zinc-200/50 shadow-sm hover:shadow-md transition-shadow">
+                        <img src="assets/img/testimonials/IMG_9302.webp" alt="Depoimento" loading="lazy" decoding="async"
+                            class="w-full h-auto rounded-xl object-contain" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEGUNDA DOBRA: MÓDULOS (Accordions) -->
+        <section class="w-full mt-24 mb-16 flex flex-col items-center">
+
+            <!-- Frase de Transição -->
+            <div class="animate-fade-up delay-300 mb-12 flex flex-col items-center text-center">
+                <p class="text-zinc-500 font-medium text-sm sm:text-base tracking-wide max-w-2xl px-4">
+                    Tudo que você acabou de ver está dentro do MZV. <br class="hidden sm:block" />
+                    <span class="text-zinc-900 font-semibold">Veja o que você recebe hoje:</span>
+                </p>
+                <div class="w-12 h-[1px] bg-zinc-300 mt-6"></div>
+            </div>
+
+            <!-- Título da Seção -->
+            <div class="text-center mb-12 px-4">
+                <span
+                    class="inline-block py-1 px-3 rounded-full bg-orange-100/50 text-orange-600 text-[10px] font-bold tracking-widest uppercase mb-4 border border-orange-200/50">O
+                    que está incluído</span>
+                <h2 class="text-3xl sm:text-4xl font-semibold text-zinc-900 tracking-tight leading-tight">
+                    O Protocolo de Desbloqueio ZV-E10 <br />
+                    <span class="text-zinc-400 font-medium text-xl sm:text-2xl mt-1 block">— Completo (Mark I e Mark
+                        II)</span>
+                </h2>
+            </div>
+
+            <!-- Accordions Container -->
+            <div class="w-full max-w-3xl flex flex-col gap-4 px-4 sm:px-0">
+
+                <!-- Módulo 1 -->
+                <div
+                    class="accordion-item glass-panel rounded-2xl border border-zinc-200/60 overflow-hidden transition-all duration-300 hover:shadow-md hover:border-zinc-300 bg-white/60">
+                    <button
+                        class="accordion-header w-full flex items-center justify-between p-5 sm:p-6 cursor-pointer text-left group">
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-10 h-10 rounded-full bg-gradient-to-br from-orange-100 to-orange-50 flex items-center justify-center shadow-inner border border-orange-200 group-hover:scale-110 group-hover:shadow-[0_0_15px_rgba(249,115,22,0.3)] transition-all duration-300 shrink-0 text-orange-500">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                                    </path>
+                                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                                </svg>
+                            </div>
+                            <div>
+                                <span
+                                    class="text-[10px] font-bold uppercase tracking-wider text-orange-500 mb-1 block">Módulo
+                                    1</span>
+                                <h3
+                                    class="text-base sm:text-lg font-semibold text-zinc-900 group-hover:text-orange-600 transition-colors">
+                                    PRIMEIROS PASSOS</h3>
+                            </div>
+                        </div>
+                        <div
+                            class="w-8 h-8 rounded-full bg-zinc-50 flex items-center justify-center border border-zinc-200 shadow-sm text-zinc-500 transition-transform duration-300 accordion-icon shrink-0">
+                            <svg class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </button>
+                    <div
+                        class="accordion-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out opacity-0">
+                        <div
+                            class="p-5 sm:p-6 pt-0 text-sm sm:text-base text-zinc-600 leading-relaxed border-t border-zinc-100 mt-2">
+                            Domando a fera do zero. Chega de medo de apertar o botão errado. Configure sua ZV-E10 do
+                            jeito certo logo no primeiro dia, entenda os segredos do seu sensor e blinde seus cartões
+                            contra a perda de arquivos.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Módulo 2 -->
+                <div
+                    class="accordion-item glass-panel rounded-2xl border border-zinc-200/60 overflow-hidden transition-all duration-300 hover:shadow-md hover:border-zinc-300 bg-white/60">
+                    <button
+                        class="accordion-header w-full flex items-center justify-between p-5 sm:p-6 cursor-pointer text-left group">
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-10 h-10 rounded-full bg-gradient-to-br from-orange-100 to-orange-50 flex items-center justify-center shadow-inner border border-orange-200 group-hover:scale-110 group-hover:shadow-[0_0_15px_rgba(249,115,22,0.3)] transition-all duration-300 shrink-0 text-orange-500">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z">
+                                    </path>
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div>
+                                <span
+                                    class="text-[10px] font-bold uppercase tracking-wider text-orange-500 mb-1 block">Módulo
+                                    2</span>
+                                <h3
+                                    class="text-base sm:text-lg font-semibold text-zinc-900 group-hover:text-orange-600 transition-colors">
+                                    DECIFRANDO A MÁQUINA</h3>
+                            </div>
+                        </div>
+                        <div
+                            class="w-8 h-8 rounded-full bg-zinc-50 flex items-center justify-center border border-zinc-200 shadow-sm text-zinc-500 transition-transform duration-300 accordion-icon shrink-0">
+                            <svg class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </button>
+                    <div
+                        class="accordion-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out opacity-0">
+                        <div
+                            class="p-5 sm:p-6 pt-0 text-sm sm:text-base text-zinc-600 leading-relaxed border-t border-zinc-100 mt-2">
+                            O adeus definitivo ao Automático. Traduzimos o menu complexo da Sony para um português
+                            claro. Assuma o controle total da luz, descubra funções ocultas e trave um Foco Automático
+                            que nunca te abandona.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Módulo 3 -->
+                <div
+                    class="accordion-item glass-panel rounded-2xl border border-zinc-200/60 overflow-hidden transition-all duration-300 hover:shadow-md hover:border-zinc-300 bg-white/60">
+                    <button
+                        class="accordion-header w-full flex items-center justify-between p-5 sm:p-6 cursor-pointer text-left group">
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-10 h-10 rounded-full bg-gradient-to-br from-orange-100 to-orange-50 flex items-center justify-center shadow-inner border border-orange-200 group-hover:scale-110 group-hover:shadow-[0_0_15px_rgba(249,115,22,0.3)] transition-all duration-300 shrink-0 text-orange-500">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 21v-7"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 10V3"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-9"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8V3"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M20 21v-5"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M20 12V3"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M1 14h6"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 8h6"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 16h6"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <span
+                                    class="text-[10px] font-bold uppercase tracking-wider text-orange-500 mb-1 block">Módulo
+                                    3</span>
+                                <h3
+                                    class="text-base sm:text-lg font-semibold text-zinc-900 group-hover:text-orange-600 transition-colors">
+                                    FUNDAMENTOS INVISÍVEIS</h3>
+                            </div>
+                        </div>
+                        <div
+                            class="w-8 h-8 rounded-full bg-zinc-50 flex items-center justify-center border border-zinc-200 shadow-sm text-zinc-500 transition-transform duration-300 accordion-icon shrink-0">
+                            <svg class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </button>
+                    <div
+                        class="accordion-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out opacity-0">
+                        <div
+                            class="p-5 sm:p-6 pt-0 text-sm sm:text-base text-zinc-600 leading-relaxed border-t border-zinc-100 mt-2">
+                            O fim dos vídeos arruinados. Evite luzes piscando e áudios estourados. Descubra as
+                            configurações secretas dos profissionais, garanta um som limpo e transfira arquivos pesados
+                            em tempo recorde.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Módulo 4 -->
+                <div
+                    class="accordion-item glass-panel rounded-2xl border border-zinc-200/60 overflow-hidden transition-all duration-300 hover:shadow-md hover:border-zinc-300 bg-white/60">
+                    <button
+                        class="accordion-header w-full flex items-center justify-between p-5 sm:p-6 cursor-pointer text-left group">
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-10 h-10 rounded-full bg-gradient-to-br from-orange-100 to-orange-50 flex items-center justify-center shadow-inner border border-orange-200 group-hover:scale-110 group-hover:shadow-[0_0_15px_rgba(249,115,22,0.3)] transition-all duration-300 shrink-0 text-orange-500">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <span
+                                    class="text-[10px] font-bold uppercase tracking-wider text-orange-500 mb-1 block">Módulo
+                                    4</span>
+                                <h3
+                                    class="text-base sm:text-lg font-semibold text-zinc-900 group-hover:text-orange-600 transition-colors">
+                                    WORKFLOW DE ALTA PERFORMANCE</h3>
+                            </div>
+                        </div>
+                        <div
+                            class="w-8 h-8 rounded-full bg-zinc-50 flex items-center justify-center border border-zinc-200 shadow-sm text-zinc-500 transition-transform duration-300 accordion-icon shrink-0">
+                            <svg class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </button>
+                    <div
+                        class="accordion-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out opacity-0">
+                        <div
+                            class="p-5 sm:p-6 pt-0 text-sm sm:text-base text-zinc-600 leading-relaxed border-t border-zinc-100 mt-2">
+                            Sua ZV-E10 absurdamente rápida. Copie o meu setup pessoal de botões. Pare de caçar
+                            configurações no menu e tenha as funções que realmente importam a apenas um clique de
+                            distância.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Módulo 5 -->
+                <div
+                    class="accordion-item glass-panel rounded-2xl border border-zinc-200/60 overflow-hidden transition-all duration-300 hover:shadow-md hover:border-zinc-300 bg-white/60">
+                    <button
+                        class="accordion-header w-full flex items-center justify-between p-5 sm:p-6 cursor-pointer text-left group">
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-10 h-10 rounded-full bg-gradient-to-br from-orange-100 to-orange-50 flex items-center justify-center shadow-inner border border-orange-200 group-hover:scale-110 group-hover:shadow-[0_0_15px_rgba(249,115,22,0.3)] transition-all duration-300 shrink-0 text-orange-500">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M20.2 6 3 11l-.9-2.4c-.3-1.1.4-2.2 1.5-2.5l13.5-4c1.1-.3 2.2.4 2.5 1.5l.6 2.4z">
+                                    </path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m2.6 15.6 14.3-4.2"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m4.8 9.6 2.3-1.2"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m9.2 8.3 2.3-1.2"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m13.7 7 2.3-1.2"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m18.1 5.7 2.3-1.2"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M3 11v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V11Z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <span
+                                    class="text-[10px] font-bold uppercase tracking-wider text-orange-500 mb-1 block">Módulo
+                                    5</span>
+                                <h3
+                                    class="text-base sm:text-lg font-semibold text-zinc-900 group-hover:text-orange-600 transition-colors">
+                                    A IMAGEM DE CINEMA</h3>
+                            </div>
+                        </div>
+                        <div
+                            class="w-8 h-8 rounded-full bg-zinc-50 flex items-center justify-center border border-zinc-200 shadow-sm text-zinc-500 transition-transform duration-300 accordion-icon shrink-0">
+                            <svg class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </button>
+                    <div
+                        class="accordion-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out opacity-0">
+                        <div
+                            class="p-5 sm:p-6 pt-0 text-sm sm:text-base text-zinc-600 leading-relaxed border-t border-zinc-100 mt-2">
+                            É aqui que seus R$5.000 se pagam. Adeus, imagem de celular. Domine o balanço de branco para
+                            tons de pele perfeitos, acerte a exposição sem estourar a luz e descubra o perfil de cor
+                            ideal para o seu conteúdo.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Módulo 6 -->
+                <div
+                    class="accordion-item glass-panel rounded-2xl border border-zinc-200/60 overflow-hidden transition-all duration-300 hover:shadow-md hover:border-zinc-300 bg-white/60">
+                    <button
+                        class="accordion-header w-full flex items-center justify-between p-5 sm:p-6 cursor-pointer text-left group">
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-10 h-10 rounded-full bg-gradient-to-br from-orange-100 to-orange-50 flex items-center justify-center shadow-inner border border-orange-200 group-hover:scale-110 group-hover:shadow-[0_0_15px_rgba(249,115,22,0.3)] transition-all duration-300 shrink-0 text-orange-500">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72Z">
+                                    </path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m14 7 3 3"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 6v4"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 14v4"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 2v2"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 8H3"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 16h-4"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M11 3H9"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <span
+                                    class="text-[10px] font-bold uppercase tracking-wider text-orange-500 mb-1 block">Módulo
+                                    6</span>
+                                <h3
+                                    class="text-base sm:text-lg font-semibold text-zinc-900 group-hover:text-orange-600 transition-colors">
+                                    NÍVEL MESTRE: S-Log</h3>
+                            </div>
+                        </div>
+                        <div
+                            class="w-8 h-8 rounded-full bg-zinc-50 flex items-center justify-center border border-zinc-200 shadow-sm text-zinc-500 transition-transform duration-300 accordion-icon shrink-0">
+                            <svg class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </button>
+                    <div
+                        class="accordion-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out opacity-0">
+                        <div
+                            class="p-5 sm:p-6 pt-0 text-sm sm:text-base text-zinc-600 leading-relaxed border-t border-zinc-100 mt-2">
+                            O segredo da colorização avançada. Perca o medo da imagem "cinza". Aprenda a regra de ouro
+                            da exposição, grave no escuro sem ruídos e domine meu fluxo de cor em 5 passos para
+                            resultados cinematográficos.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Módulo 7 -->
+                <div
+                    class="accordion-item glass-panel rounded-2xl border border-zinc-200/60 overflow-hidden transition-all duration-300 hover:shadow-md hover:border-zinc-300 bg-white/60">
+                    <button
+                        class="accordion-header w-full flex items-center justify-between p-5 sm:p-6 cursor-pointer text-left group">
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-10 h-10 rounded-full bg-gradient-to-br from-orange-100 to-orange-50 flex items-center justify-center shadow-inner border border-orange-200 group-hover:scale-110 group-hover:shadow-[0_0_15px_rgba(249,115,22,0.3)] transition-all duration-300 shrink-0 text-orange-500">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div>
+                                <span
+                                    class="text-[10px] font-bold uppercase tracking-wider text-orange-500 mb-1 block">Módulo
+                                    7</span>
+                                <h3
+                                    class="text-base sm:text-lg font-semibold text-zinc-900 group-hover:text-orange-600 transition-colors">
+                                    HACKS E SOBREVIVÊNCIA</h3>
+                            </div>
+                        </div>
+                        <div
+                            class="w-8 h-8 rounded-full bg-zinc-50 flex items-center justify-center border border-zinc-200 shadow-sm text-zinc-500 transition-transform duration-300 accordion-icon shrink-0">
+                            <svg class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </button>
+                    <div
+                        class="accordion-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out opacity-0">
+                        <div
+                            class="p-5 sm:p-6 pt-0 text-sm sm:text-base text-zinc-600 leading-relaxed border-t border-zinc-100 mt-2">
+                            O que não está no manual. Drible o superaquecimento para gravar por horas, transforme seu
+                            celular em um monitor externo de luxo, elimine o "efeito gelatina" e limpe seu sensor com
+                            total segurança.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- TERCEIRA DOBRA: BÔNUS -->
+        <section class="w-full mt-10 mb-24 flex flex-col items-center">
+
+            <!-- Headline Bônus -->
+            <div class="text-center mb-16 px-4">
+                <div
+                    class="inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-orange-500 to-orange-400 text-white px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase mb-6 shadow-lg shadow-orange-500/30">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7">
+                        </path>
+                    </svg>
+                    <span>Presentes Exclusivos</span>
+                </div>
+                <h2 class="text-4xl sm:text-5xl font-bold text-zinc-900 tracking-tight leading-tight mb-4">
+                    O Que Mais Você Leva <br class="hidden sm:block" />
+                    <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-orange-400">Totalmente
+                        de Graça</span>
+                </h2>
+                <p class="text-zinc-500 text-base sm:text-lg max-w-2xl mx-auto font-medium">Garanta sua vaga hoje e
+                    libere imediatamente estes 5 bônus premium projetados para acelerar ainda mais seus resultados.</p>
+            </div>
+
+            <!-- Grid de Bônus -->
+            <div class="w-full max-w-6xl px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
+
+                <div
+                    class="glass-panel group rounded-[2rem] overflow-hidden border border-zinc-200/60 relative flex flex-col md:flex-row md:col-span-2 hover:shadow-2xl transition-all duration-500 bg-white/40">
+
+                    <!-- Imagem Esquerda (Mobile: Topo / Desktop: Metade Direita adaptável) -->
+                    <div class="w-full md:w-1/2 h-56 md:h-auto relative overflow-hidden order-1 md:order-2">
+                        <img src="assets/img/features/davinci.webp" alt="DaVinci Resolve" loading="lazy" decoding="async"
+                            class="absolute inset-0 w-full h-full object-cover object-center scale-100 group-hover:scale-105 transition-transform duration-700 filter saturate-75 group-hover:saturate-100"
+                            onerror="this.src='https://placehold.co/800x600/18181b/ea580c?text=DaVinci+Resolve'" />
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-zinc-900/80 to-transparent md:bg-gradient-to-r md:from-transparent md:to-white/90">
+                        </div>
+                        <div class="absolute top-4 right-4 md:top-6 md:right-6">
+                            <div
+                                class="inline-flex items-center justify-center bg-zinc-900/80 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-bold tracking-widest uppercase border border-white/10 shadow-lg">
+                                <span class="text-orange-400 mr-2">Bônus 01</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Conteúdo visível (Esquerda) -->
+                    <div
+                        class="w-full md:w-1/2 relative z-20 p-6 sm:p-8 flex flex-col justify-center bg-gradient-to-t md:bg-gradient-to-l from-white via-white to-white/90 order-2 md:order-1">
+                        <div class="mb-4">
+                            <span class="text-sm font-bold text-red-500 line-through mr-2">De R$ 97,00</span>
+                            <span
+                                class="inline-flex items-center gap-1.5 text-xs font-bold text-white bg-gradient-to-r from-emerald-500 to-emerald-400 px-3 py-1 rounded-full shadow-sm">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                Gratuito Hoje
+                            </span>
+                        </div>
+                        <h3 class="text-2xl sm:text-3xl font-bold text-zinc-900 mb-4 leading-tight">Destravando a Edição
+                            no DaVinci Resolve</h3>
+                        <p class="text-zinc-600 font-medium text-sm sm:text-base leading-relaxed mb-6">O passo a passo
+                            exato para importar, cortar, colorir e exportar seus arquivos da ZV-E10 com a qualidade
+                            máxima que só o software de Hollywood entrega.</p>
+                    </div>
+                </div>
+
+                <!-- Bônus 2: Iluminação -->
+                <div
+                    class="glass-panel group rounded-[2rem] overflow-hidden border border-zinc-200/60 relative flex flex-col hover:shadow-xl transition-all duration-500 bg-white/40">
+                    <img src="assets/img/features/iluminacao.webp" alt="Iluminação de Estúdio" loading="lazy" decoding="async"
+                        class="w-full h-48 sm:h-56 object-cover object-top scale-100 group-hover:scale-105 transition-transform duration-700 z-0"
+                        onerror="this.src='https://placehold.co/400x300/f4f4f5/ea580c?text=Iluminação'" />
+                    <div class="absolute top-0 right-0 p-4 z-10">
+                        <div
+                            class="w-10 h-10 rounded-full bg-white/90 backdrop-blur shadow-sm flex items-center justify-center">
+                            <svg class="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z">
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div
+                        class="relative z-20 p-6 sm:p-8 flex flex-col flex-grow bg-gradient-to-t from-white via-white to-white/90">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-orange-500 mb-1">Bônus
+                            02</span>
+                        <h3 class="text-xl font-bold text-zinc-900 mb-2 leading-tight">O Segredo da Iluminação de
+                            Estúdio</h3>
+                        <div class="mb-3 flex items-center gap-2">
+                            <span class="text-xs font-bold text-red-500 line-through">De R$ 97,00</span>
+                            <span class="text-xs font-bold text-emerald-500 flex items-center gap-1"><svg
+                                    class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg> Grátis</span>
+                        </div>
+                        <p class="text-zinc-500 text-sm font-medium">Pare de lutar contra as sombras. Saiba como
+                            posicionar uma luz simples e barata para criar um visual cinematográfico imediato.</p>
+                    </div>
+                </div>
+
+                <!-- Bônus 3: Compras -->
+                <div
+                    class="glass-panel group rounded-[2rem] overflow-hidden border border-zinc-200/60 relative flex flex-col hover:shadow-xl transition-all duration-500 bg-white/40">
+                    <img src="assets/img/features/compras.webp" alt="Guia de Compras" loading="lazy" decoding="async"
+                        class="w-full h-48 sm:h-56 object-cover object-center scale-100 group-hover:scale-105 transition-transform duration-700 z-0"
+                        onerror="this.src='https://placehold.co/400x300/f4f4f5/ea580c?text=Guia+de+Compras'" />
+                    <div class="absolute top-0 right-0 p-4 z-10">
+                        <div
+                            class="w-10 h-10 rounded-full bg-white/90 backdrop-blur shadow-sm flex items-center justify-center">
+                            <svg class="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div
+                        class="relative z-20 p-6 sm:p-8 flex flex-col flex-grow bg-gradient-to-t from-white via-white to-white/90">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-orange-500 mb-1">Bônus
+                            03</span>
+                        <h3 class="text-xl font-bold text-zinc-900 mb-2 leading-tight">Guia de Compras <br />
+                            Inteligente</h3>
+                        <div class="mb-3 flex items-center gap-2">
+                            <span class="text-xs font-bold text-red-500 line-through">De R$ 67,00</span>
+                            <span class="text-xs font-bold text-emerald-500 flex items-center gap-1"><svg
+                                    class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg> Grátis</span>
+                        </div>
+                        <p class="text-zinc-500 text-sm font-medium">Lentes, cartões SD, baterias e acessórios. A lista
+                            completa e testada do que comprar (e do que evitar pagar caro) para montar seu kit perfeito.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Bônus 4: Checklist -->
+                <div
+                    class="glass-panel group rounded-[2rem] overflow-hidden border border-zinc-200/60 relative flex flex-col hover:shadow-xl transition-all duration-500 bg-white/40">
+                    <img src="assets/img/features/checklist-anti-erro.webp" alt="Checklist Anti-Erro" loading="lazy" decoding="async"
+                        class="w-full h-48 sm:h-56 object-cover object-center scale-100 group-hover:scale-105 transition-transform duration-700 z-0"
+                        onerror="this.src='https://placehold.co/400x300/f4f4f5/ea580c?text=Checklist'" />
+                    <div class="absolute top-0 right-0 p-4 z-10">
+                        <div
+                            class="w-10 h-10 rounded-full bg-white/90 backdrop-blur shadow-sm flex items-center justify-center">
+                            <svg class="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div
+                        class="relative z-20 p-6 sm:p-8 flex flex-col flex-grow bg-gradient-to-t from-white via-white to-white/90">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-orange-500 mb-1">Bônus
+                            04</span>
+                        <h3 class="text-xl font-bold text-zinc-900 mb-2 leading-tight">Checklist Anti-Erro <br> <span
+                                class="text-zinc-400 font-medium text-lg">— Guia de Bolso</span></h3>
+                        <div class="mb-3 flex items-center gap-2">
+                            <span class="text-xs font-bold text-red-500 line-through">De R$ 47,00</span>
+                            <span class="text-xs font-bold text-emerald-500 flex items-center gap-1"><svg
+                                    class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg> Grátis</span>
+                        </div>
+                        <p class="text-zinc-500 text-sm font-medium">O Checklist com todas as configurações essenciais
+                            para você bater o olho antes de apertar o REC e garantir que nada vai dar errado.</p>
+                    </div>
+                </div>
+
+                <!-- Bônus 5: Aulas ao Vivo -->
+                <div
+                    class="glass-panel group rounded-[2rem] overflow-hidden border border-zinc-200/60 relative flex flex-col hover:shadow-xl transition-all duration-500 bg-white/40">
+                    <img src="assets/img/features/ao-vivo.webp" alt="Aulas ao Vivo"
+                        class="w-full h-auto rounded-xl object-cover shadow-sm group-hover:scale-105 transition-transform duration-500"
+                        onerror="this.src='https://placehold.co/400x300/f4f4f5/ea580c?text=Ao+Vivo'" loading="lazy" decoding="async" />
+                    <div class="absolute top-0 right-0 p-4 z-10">
+                        <div
+                            class="w-10 h-10 rounded-full bg-white/90 backdrop-blur shadow-sm flex items-center justify-center">
+                            <span class="relative flex h-3 w-3">
+                                <span
+                                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                            </span>
+                        </div>
+                    </div>
+                    <div
+                        class="relative z-20 p-6 sm:p-8 flex flex-col flex-grow bg-gradient-to-t from-white via-white to-white/90">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-orange-500 mb-1">Bônus
+                            05</span>
+                        <h3 class="text-xl font-bold text-zinc-900 mb-2 leading-tight">Aulas ao Vivo <br> Quinzenais
+                        </h3>
+                        <div class="mb-3 flex items-center gap-2">
+                            <span class="text-xs font-bold text-red-500 line-through">De R$ 497,00</span>
+                            <span class="text-xs font-bold text-emerald-500 flex items-center gap-1"><svg
+                                    class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg> Grátis</span>
+                        </div>
+                        <p class="text-zinc-500 text-sm font-medium">Acesso VIP aos nossos encontros ao vivo. Traga seus
+                            vídeos, tire suas dúvidas ao vivo.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- QUARTA DOBRA: OFERTA E CHECKOUT -->
+        <section class="w-full mt-10 flex flex-col items-center">
+
+            <!-- Preço e Oferta Principal -->
+            <div class="text-center w-full px-4 mb-16 relative">
+                <!-- Efeito blur no fundo do preço -->
+                <div
+                    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl h-64 bg-orange-300/20 blur-[100px] rounded-full pointer-events-none z-0">
+                </div>
+
+                <div class="relative z-10 flex flex-col items-center">
+                    <div class="mb-6 flex flex-col items-center gap-1">
+                        <p class="text-zinc-400 font-semibold uppercase tracking-widest text-sm mb-2">Resumo do Valor
+                        </p>
+                        <div class="flex items-center gap-3 text-zinc-400 font-medium opacity-60">
+                            <span>Valor Total dos itens:</span>
+                            <span class="line-through">R$ 1.805,00</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-red-500 font-bold opacity-80 mt-1">
+                            <span>Preço Oficial do MZV:</span>
+                            <span class="line-through relative">
+                                R$ 997,00
+                                <div class="absolute w-full h-0.5 bg-red-500 top-1/2 -translate-y-1/2 rotate-[-5deg]">
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div
+                        class="inline-flex items-center justify-center bg-orange-100 text-orange-600 px-6 py-2 rounded-full text-sm font-bold tracking-widest uppercase mb-8 shadow-sm border border-orange-200">
+                        HOJE, POR ASSISTIR ATÉ AQUI:
+                    </div>
+
+                    <div class="flex flex-col items-center mb-10">
+                        <div class="flex items-start text-zinc-900 justify-center">
+                            <span class="text-3xl font-bold mt-2 mr-2">12x de</span>
+                            <span
+                                class="text-6xl sm:text-8xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-orange-400 to-orange-600 drop-shadow-sm">R$41<span
+                                    class="text-4xl sm:text-6xl">,75</span></span>
+                        </div>
+                        <p
+                            class="text-zinc-500 font-medium text-lg mt-4 w-full flex items-center justify-center gap-3 before:content-[''] before:h-px before:w-16 before:bg-zinc-200 after:content-[''] after:h-px after:w-16 after:bg-zinc-200">
+                            ou <strong class="text-zinc-800">R$417 à vista</strong>
+                        </p>
+                    </div>
+
+                    <!-- Botão de Venda -->
+                    <a href="https://go.rodrigobaiao.com/pay/mzvpdr"
+                        class="group relative inline-flex w-full sm:w-auto items-center justify-center gap-3 px-8 sm:px-12 py-5 sm:py-6 bg-gradient-to-r from-orange-500 via-orange-400 to-orange-500 bg-[length:200%_auto] text-white rounded-full font-bold text-lg sm:text-xl tracking-wide shadow-xl shadow-orange-500/40 hover:shadow-orange-500/60 hover:-translate-y-1 transition-all duration-300 animate-pulse-slow overflow-hidden">
+                        <!-- Shine effect -->
+                        <div
+                            class="absolute inset-0 -translate-x-full group-hover:animate-shine bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12">
+                        </div>
+                        <span>QUERO DOMINAR MINHA ZV-E10 AGORA</span>
+                        <svg class="w-6 h-6 transition-transform group-hover:translate-x-1" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                        </svg>
+                    </a>
+
+                    <!-- Formas de pagamento seguras -->
+                    <div class="mt-6 flex flex-col items-center gap-3 w-full">
+                        <div
+                            class="flex relative items-center justify-center gap-4 bg-zinc-50 border border-zinc-200 rounded-full px-6 py-2">
+                            <div class="flex items-center gap-1.5 text-zinc-600 text-xs font-semibold">
+                                <svg class="w-4 h-4 text-emerald-500" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z">
+                                    </path>
+                                </svg>
+                                Acesso Imediato
+                            </div>
+                            <div class="w-1 h-1 bg-zinc-300 rounded-full"></div>
+                            <div class="flex items-center gap-1.5 text-zinc-600 text-xs font-semibold">
+                                <svg class="w-4 h-4 text-emerald-500" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z">
+                                    </path>
+                                </svg>
+                                Pagamento Seguro
+                            </div>
+                        </div>
+                        <p class="text-zinc-400 text-xs font-medium tracking-wide">PIX e Cartão de Crédito</p>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Contexto e Reflexão -->
+            <div class="w-full max-w-4xl px-4 mb-24">
+                <div
+                    class="glass-panel flex flex-col items-center justify-center p-8 sm:p-12 lg:p-14 rounded-[2.5rem] bg-zinc-900 border border-zinc-800 shadow-xl relative overflow-hidden text-center mx-auto">
+                    <!-- Subtle Glow effect -->
+                    <div
+                        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(ellipse_at_center,rgba(234,88,12,0.08)_0%,transparent_70%)] pointer-events-none">
+                    </div>
+
+                    <div class="relative z-10 w-full flex flex-col items-center">
+                        <div
+                            class="flex flex-col gap-4 text-zinc-400 text-base sm:text-lg leading-relaxed mb-8 max-w-2xl mx-auto font-medium">
+                            <p>
+                                Você pode fechar essa página e continuar gravando no automático, subutilizando uma
+                                câmera de alto nível entregando imagens comuns.
+                            </p>
+                            <p>
+                                Ou você pode <strong class="text-zinc-200">dominar os menus</strong> e destravar a
+                                verdadeira qualidade de cinema que o seu equipamento possui.
+                            </p>
+                        </div>
+
+                        <div class="p-6 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-sm w-full relative">
+                            <p class="text-zinc-300 font-semibold italic text-base mb-3 max-w-xl mx-auto">
+                                "Criadores com equipamentos mais baratos estão entregando vídeos melhores. A diferença
+                                não é a câmera, é saber configurá-la."
+                            </p>
+                            <span
+                                class="inline-block pt-2 text-orange-400/90 font-bold uppercase tracking-widest text-xs">—
+                                A escolha é sua.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- QUINTA DOBRA: GARANTIA INCONDICIONAL -->
+        <section class="w-full flex justify-center px-4 pb-24">
+            <div
+                class="glass-panel w-full max-w-4xl rounded-3xl border-2 border-orange-100 bg-white shadow-xl flex flex-col sm:flex-row items-center overflow-hidden">
+                <!-- Lado Celo / Icone -->
+                <div
+                    class="w-full sm:w-2/5 md:w-1/3 bg-orange-50 p-10 flex flex-col justify-center items-center h-full border-b sm:border-b-0 sm:border-r border-orange-100 relative">
+                    <div
+                        class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjIiIGZpbGw9IiNmOThhMjIiIGZpbGwtb3BhY2l0eT0iMC4xIi8+PC9zdmc+')] opacity-50 z-0">
+                    </div>
+                    <div class="z-10 relative flex items-center justify-center">
+                        <div class="absolute w-32 h-32 bg-orange-300 rounded-full blur-[40px] opacity-40"></div>
+                        <img src="https://api.iconify.design/solar:shield-check-bold-duotone.svg?color=%23ea580c"
+                            alt="Garantia" loading="lazy" decoding="async" class="w-24 h-24 sm:w-28 sm:h-28 drop-shadow-md relative z-10" loading="lazy" decoding="async" />
+                    </div>
+                    <h4
+                        class="text-4xl font-black tracking-tighter text-orange-600 mt-4 relative z-10 text-center leading-none">
+                        7 DIAS</h4>
+                    <p class="text-[10px] font-bold uppercase tracking-widest text-orange-400 mt-1 relative z-10">
+                        Garantia Total</p>
+                </div>
+
+                <!-- Lado Texto -->
+                <div
+                    class="w-full sm:w-3/5 md:w-2/3 p-8 sm:p-12 flex flex-col justify-center bg-white/60 backdrop-blur-sm">
+                    <h3 class="text-2xl sm:text-3xl font-bold text-zinc-900 mb-4 tracking-tight">Risco Zero. Devolução
+                        Implacável.</h3>
+                    <p class="text-zinc-600 text-sm sm:text-base leading-relaxed mb-6 font-medium">Entre no Protocolo,
+                        assista as primeiras aulas e teste as configurações na sua câmera. Se por qualquer motivo –
+                        achar que sua imagem não melhorou ou simplesmente decidir que não é o seu momento – você tem
+                        <strong class="text-zinc-900">7 dias corridos</strong> para pedir reembolso.</p>
+                    <p class="text-zinc-600 text-sm sm:text-base leading-relaxed font-medium">É só mandar um único
+                        e-mail para o suporte e eu devolvo 100% do seu dinheiro. Sem ressentimentos, sem letras miúdas
+                        ou perguntas inconvenientes.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEXTA DOBRA: FAQ (Perguntas Frequentes) Minimalista -->
+        <section class="w-full flex justify-center px-4 pb-32">
+            <div class="w-full max-w-3xl">
+                <!-- FAQ Header -->
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-zinc-900 mb-3">
+                        Perguntas Frequentes
+                    </h2>
+                    <p class="text-zinc-500 text-sm md:text-base font-medium">Ficou com alguma dúvida?</p>
+                </div>
+
+                <!-- FAQ Accordions Container -->
+                <div class="space-y-0 text-left border-t border-zinc-200/60">
+
+                    <!-- FAQ Item 1 -->
+                    <div
+                        class="faq-item group border-b border-zinc-200/60 overflow-hidden cursor-pointer transition-colors hover:bg-zinc-50/50">
+                        <div class="faq-header flex items-center justify-between py-5 px-2 sm:px-4 select-none">
+                            <h3
+                                class="text-base sm:text-lg font-semibold text-zinc-800 group-hover:text-orange-600 transition-colors">
+                                Funciona para Mark I e Mark II?</h3>
+                            <div
+                                class="faq-icon text-zinc-400 group-hover:text-orange-500 transition-colors duration-300 w-5 h-5 flex-shrink-0 ml-4 flex items-center justify-center">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 4v16m8-8H4"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div
+                            class="faq-content overflow-hidden max-h-0 transition-all duration-500 ease-in-out opacity-0">
+                            <div class="pb-5 px-2 sm:px-4 text-zinc-600 text-sm leading-relaxed">
+                                Sim. Na plataforma você escolhe qual conteúdo específico para a sua câmera.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 2 -->
+                    <div
+                        class="faq-item group border-b border-zinc-200/60 overflow-hidden cursor-pointer transition-colors hover:bg-zinc-50/50">
+                        <div class="faq-header flex items-center justify-between py-5 px-2 sm:px-4 select-none">
+                            <h3
+                                class="text-base sm:text-lg font-semibold text-zinc-800 group-hover:text-orange-600 transition-colors">
+                                O curso é para iniciantes?</h3>
+                            <div
+                                class="faq-icon text-zinc-400 group-hover:text-orange-500 transition-colors duration-300 w-5 h-5 flex-shrink-0 ml-4 flex items-center justify-center">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 4v16m8-8H4"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div
+                            class="faq-content overflow-hidden max-h-0 transition-all duration-500 ease-in-out opacity-0">
+                            <div class="pb-5 px-2 sm:px-4 text-zinc-600 text-sm leading-relaxed">
+                                Sim! O curso é projetado para todos os níveis de habilidade. Começamos com o básico e
+                                progredimos para técnicas mais avançadas.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 3 -->
+                    <div
+                        class="faq-item group border-b border-zinc-200/60 overflow-hidden cursor-pointer transition-colors hover:bg-zinc-50/50">
+                        <div class="faq-header flex items-center justify-between py-5 px-2 sm:px-4 select-none">
+                            <h3
+                                class="text-base sm:text-lg font-semibold text-zinc-800 group-hover:text-orange-600 transition-colors">
+                                Quanto tempo tenho acesso?</h3>
+                            <div
+                                class="faq-icon text-zinc-400 group-hover:text-orange-500 transition-colors duration-300 w-5 h-5 flex-shrink-0 ml-4 flex items-center justify-center">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 4v16m8-8H4"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div
+                            class="faq-content overflow-hidden max-h-0 transition-all duration-500 ease-in-out opacity-0">
+                            <div class="pb-5 px-2 sm:px-4 text-zinc-600 text-sm leading-relaxed">
+                                1 ano completo para assistir, revisar e aplicar no seu ritmo.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 4 -->
+                    <div
+                        class="faq-item group border-b border-zinc-200/60 overflow-hidden cursor-pointer transition-colors hover:bg-zinc-50/50">
+                        <div class="faq-header flex items-center justify-between py-5 px-2 sm:px-4 select-none">
+                            <h3
+                                class="text-base sm:text-lg font-semibold text-zinc-800 group-hover:text-orange-600 transition-colors">
+                                Como acesso o curso?</h3>
+                            <div
+                                class="faq-icon text-zinc-400 group-hover:text-orange-500 transition-colors duration-300 w-5 h-5 flex-shrink-0 ml-4 flex items-center justify-center">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 4v16m8-8H4"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div
+                            class="faq-content overflow-hidden max-h-0 transition-all duration-500 ease-in-out opacity-0">
+                            <div class="pb-5 px-2 sm:px-4 text-zinc-600 text-sm leading-relaxed">
+                                Você receberá, após a compra, todas as informações de acesso em seu email.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 5 -->
+                    <div
+                        class="faq-item group border-b border-zinc-200/60 overflow-hidden cursor-pointer transition-colors hover:bg-zinc-50/50">
+                        <div class="faq-header flex items-center justify-between py-5 px-2 sm:px-4 select-none">
+                            <h3
+                                class="text-base sm:text-lg font-semibold text-zinc-800 group-hover:text-orange-600 transition-colors">
+                                Quais as formas de pagamento?</h3>
+                            <div
+                                class="faq-icon text-zinc-400 group-hover:text-orange-500 transition-colors duration-300 w-5 h-5 flex-shrink-0 ml-4 flex items-center justify-center">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 4v16m8-8H4"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div
+                            class="faq-content overflow-hidden max-h-0 transition-all duration-500 ease-in-out opacity-0">
+                            <div class="pb-5 px-2 sm:px-4 text-zinc-600 text-sm leading-relaxed">
+                                Pix e cartão de crédito em até 12x.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 6 -->
+                    <div
+                        class="faq-item group border-b border-zinc-200/60 overflow-hidden cursor-pointer transition-colors hover:bg-zinc-50/50">
+                        <div class="faq-header flex items-center justify-between py-5 px-2 sm:px-4 select-none">
+                            <h3
+                                class="text-base sm:text-lg font-semibold text-zinc-800 group-hover:text-orange-600 transition-colors">
+                                Há algum suporte durante o curso?</h3>
+                            <div
+                                class="faq-icon text-zinc-400 group-hover:text-orange-500 transition-colors duration-300 w-5 h-5 flex-shrink-0 ml-4 flex items-center justify-center">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 4v16m8-8H4"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div
+                            class="faq-content overflow-hidden max-h-0 transition-all duration-500 ease-in-out opacity-0">
+                            <div class="pb-5 px-2 sm:px-4 text-zinc-600 text-sm leading-relaxed">
+                                Sim, em todas as aulas você pode fazer perguntas e receber feedback.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 7 -->
+                    <div
+                        class="faq-item group border-b border-zinc-200/60 overflow-hidden cursor-pointer transition-colors hover:bg-zinc-50/50">
+                        <div class="faq-header flex items-center justify-between py-5 px-2 sm:px-4 select-none">
+                            <h3
+                                class="text-base sm:text-lg font-semibold text-zinc-800 group-hover:text-orange-600 transition-colors">
+                                Quando acontecem as aulas ao vivo?</h3>
+                            <div
+                                class="faq-icon text-zinc-400 group-hover:text-orange-500 transition-colors duration-300 w-5 h-5 flex-shrink-0 ml-4 flex items-center justify-center">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 4v16m8-8H4"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div
+                            class="faq-content overflow-hidden max-h-0 transition-all duration-500 ease-in-out opacity-0">
+                            <div class="pb-5 px-2 sm:px-4 text-zinc-600 text-sm leading-relaxed">
+                                A cada 15 dias. Você pode enviar dúvidas com antecedência e acompanhar ao vivo ou pela
+                                gravação.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 8 -->
+                    <div
+                        class="faq-item group border-b border-zinc-200/60 overflow-hidden cursor-pointer transition-colors hover:bg-zinc-50/50">
+                        <div class="faq-header flex items-center justify-between py-5 px-2 sm:px-4 select-none">
+                            <h3
+                                class="text-base sm:text-lg font-semibold text-zinc-800 group-hover:text-orange-600 transition-colors">
+                                E se eu já assistir tutoriais no YouTube?</h3>
+                            <div
+                                class="faq-icon text-zinc-400 group-hover:text-orange-500 transition-colors duration-300 w-5 h-5 flex-shrink-0 ml-4 flex items-center justify-center">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 4v16m8-8H4"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div
+                            class="faq-content overflow-hidden max-h-0 transition-all duration-500 ease-in-out opacity-0">
+                            <div class="pb-5 px-2 sm:px-4 text-zinc-600 text-sm leading-relaxed">
+                                O problema não é falta de informação, é falta de sistema. O Protocolo organiza tudo em
+                                uma sequência lógica que tutoriais soltos nunca vão te dar.
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section> <!-- Fim FAQ -->
+
+        </div>
+    </main>
+
+    <!-- Scripts de Interatividade (Lazy Loaded 3s para Performance Elite) -->
+    <script>
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                // Restaurar funcionalidade das sanfonas (FAQ e Módulos)
+                const toggles = document.querySelectorAll('.accordion-header, .faq-header');
+                toggles.forEach(header => {
+                    header.onclick = function () {
+                        const parent = this.parentElement;
+                        const content = parent.querySelector('.accordion-content, .faq-content');
+                        const icon = this.querySelector('.accordion-icon, .faq-icon');
+                        const iconSvg = icon ? icon.querySelector('svg') : null;
+                        const isOpen = content.style.maxHeight;
+
+                        if (isOpen) {
+                            content.style.maxHeight = null;
+                            content.classList.remove('opacity-100');
+                            content.classList.add('opacity-0');
+                            if (icon) icon.style.transform = 'rotate(0deg)';
+                            parent.classList.remove('border-orange-300', 'shadow-md');
+                            parent.classList.add('border-zinc-200/60');
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                            content.classList.remove('opacity-0');
+                            content.classList.add('opacity-100');
+                            if (icon) icon.style.transform = 'rotate(180deg)';
+                            parent.classList.remove('border-zinc-200/60');
+                            parent.classList.add('border-orange-300', 'shadow-md');
+                        }
+
+                        if (icon && this.classList.contains('faq-header')) {
+                            if (isOpen) {
+                                iconSvg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>';
+                            } else {
+                                iconSvg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>';
+                            }
+                        }
+                    };
+                });
+
+                // Carregar scripts de ícones de forma assíncrona
+                const iconScript = document.createElement("script");
+                iconScript.src = "https://code.iconify.design/3/3.1.0/iconify.min.js";
+                document.body.appendChild(iconScript);
+                
+                const lucideScript = document.createElement("script");
+                lucideScript.src = "https://unpkg.com/lucide@latest";
+                lucideScript.onload = () => lucide.createIcons();
+                document.body.appendChild(lucideScript);
+
+            }, 3000); // 3 segundos para scripts secundários
+        });
+    </script>
+
+    <!-- 4. TAILWIND E SCRIPTS SECUNDÁRIOS: Carregamento Assíncrono no Final -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        zinc: { 50: '#fafafa', 100: '#f4f4f5', 200: '#e4e4e7', 400: '#a1a1aa', 500: '#71717a', 600: '#52525b', 900: '#18181b' },
+                        orange: { 400: '#fb923c', 500: '#f97316', 600: '#ea580c' }
+                    },
+                    boxShadow: {
+                        'hero': '0 25px 50px -12px rgba(0, 0, 0, 0.05)',
+                        'inner-glow': 'inset 0 0 0 1px rgba(255, 255, 255, 0.5)',
+                        'xl-soft': '0 20px 25px -5px rgba(24, 24, 27, 0.05), 0 8px 10px -6px rgba(24, 24, 27, 0.01)',
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

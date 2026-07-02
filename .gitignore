@@ -1,0 +1,5 @@
+.DS_Store
+._*
+.gemini/
+brain/
+node_modules/
